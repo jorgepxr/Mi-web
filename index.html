@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¡Feliz Cumpleaños!</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      color: #fff;
+      background: linear-gradient(-45deg, #0f172a, #1e1b4b, #311042, #0284c7, #1e1b4b);
+      background-size: 500% 500%;
+      animation: gradientBG 18s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 50px 35px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      max-width: 500px;
+      width: 90%;
+      animation: containerFloat 5s ease-in-out infinite alternate, slideInUp 0.8s ease-out;
+      overflow: hidden; 
+    }
+    
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+      animation: rotateGlow 10s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rotateGlow {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes containerFloat {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(0.5deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+    
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    
+    .cake-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 18px auto;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: initialPulse 2s ease-out;
+    }
+
+    @keyframes initialPulse {
+      0% { transform: scale(0.5); opacity: 0; }
+      70% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .cake-icon:hover {
+      transform: scale(1.15) rotate(7deg);
+    }
+
+    .flame {
+      animation: flicker 0.8s infinite alternate ease-in-out;
+      transform-origin: center bottom;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-3deg); opacity: 0.85; filter: drop-shadow(0 0 2px #FFD166); }
+      50% { transform: scale(1.05) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 5px #FFB703); }
+      100% { transform: scale(1.2) rotate(3deg); opacity: 0.9; filter: drop-shadow(0 0 2px #FFD166); }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      background: linear-gradient(45deg, #ffd166, #f72585, #4cc9f0, #ffd166);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      animation: fadeInDown 1.2s ease, gradientText 5s linear infinite;
+    }
+    
+    @keyframes gradientText {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    p.subtitle {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: #e2e8f0;
+      margin-bottom: 30px;
+      letter-spacing: 0.8px;
+      animation: fadeInUp 1s ease 0.3s both; 
+    }
+
+    
+    .card-btn {
+      background: linear-gradient(135deg, #ff007f, #7928ca);
+      color: #fff;
+      border: none;
+      padding: 16px 36px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(247, 37, 133, 0.45);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      letter-spacing: 1px;
+      animation: fadeInUp 1s ease 0.6s both, pulseBtn 2.5s infinite; 
+      position: relative;
+      overflow: hidden;
+    }
+    
+    
+    .card-btn::after {
+        content: '';
+        position: absolute;
+        top: 0; left: -100%;
+        width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+        transition: left 0.5s;
+    }
+
+    .card-btn:hover {
+      transform: translateY(-5px) scale(1.08);
+      box-shadow: 0 15px 35px rgba(247, 37, 133, 0.7);
+    }
+    
+    .card-btn:hover::after {
+        left: 100%;
+    }
+
+    .card-btn:active {
+      transform: translateY(2px) scale(0.97);
+    }
+    
+    @keyframes pulseBtn {
+        0%, 100% { box-shadow: 0 10px 30px rgba(247, 37, 133, 0.45); }
+        50% { box-shadow: 0 10px 40px rgba(247, 37, 133, 0.8); }
+    }
+
+    
+    .message-box {
+      display: none;
+      margin-top: 30px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 25px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: inset 0 3px 6px rgba(0,0,0,0.4);
+      text-align: left;
+      min-height: 120px;
+      animation: zoomIn 0.5s ease-out; 
+    }
+
+    @keyframes zoomIn {
+        from { opacity: 0; transform: scale(0.8); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .message-box p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #f8fafc;
+      font-weight: 400;
+    }
+
+    
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background-color: #ffd166;
+      margin-left: 4px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="fireworks"></canvas>
+
+  <div class="container">
+    <svg class="cake-icon" id="cake" viewBox="0 0 64 64" fill="none" onclick="openSurprise()">
+      <defs>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <path d="M12 40H52V52C52 54.2091 50.2091 56 48 56H16C13.7909 56 12 54.2091 12 52V40Z" fill="#7928CA"/>
+      <path d="M8 28H56V36C56 38.2091 54.2091 40 52 40H12C9.79086 40 8 38.2091 8 36V28Z" fill="#FF007F"/>
+      <path d="M28 16H36V28H28V16Z" fill="#F72585"/>
+      <path d="M30 18H34V28H30V18Z" fill="#FFF"/>
+      <path class="flame" d="M32 6C32 6 36 10 36 13C36 15.2091 34.2091 17 32 17C29.7909 17 28 15.2091 28 13C28 10 32 6 32 6Z" fill="#FFB703" filter="url(#glow)"/>
+    </svg>
+
+    <h1>¡Feliz cumpleaños!</h1>
+    <p class="subtitle">Un pequeño detalle pensado para ti</p>
+    
+    <button class="card-btn" id="btnSurprise" onclick="openSurprise()">✨abrir Sorpresa✨</button>
+
+    <div class="message-box" id="surprise">
+      <p><span id="typed-text"></span><span class="cursor" id="cursor">&nbsp;</span></p>
+    </div>
+  </div>
+
+  <script>
+    
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    
+    let particles = [];
+    let animationActive = true;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor(x, y, color, speedMultiplier = 1) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.shape = Math.random() > 0.4 ? 'circle' : (Math.random() > 0.5 ? 'rect' : 'star'); 
+        this.size = Math.random() * 5 + 2;
+        this.velocity = {
+          x: (Math.random() - 0.5) * 12 * speedMultiplier,
+          y: (Math.random() - 0.6) * 15 * speedMultiplier 
+        };
+        this.alpha = 1;
+        this.friction = 0.96;
+        this.gravity = 0.15;
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = (Math.random() - 0.5) * 0.3;
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = this.color; 
+
+        if (this.shape === 'circle') {
+          ctx.beginPath();
+          ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else if (this.shape === 'rect') {
+          ctx.fillRect(-this.size, -this.size, this.size * 2, this.size * 1.2);
+        } else {
+            
+            ctx.beginPath();
+            for(let i=0; i<5; i++) {
+                ctx.lineTo(Math.cos((18+i*72)*Math.PI/180)*this.size, Math.sin((18+i*72)*Math.PI/180)*this.size);
+                ctx.lineTo(Math.cos((54+i*72)*Math.PI/180)*this.size/2, Math.sin((54+i*72)*Math.PI/180)*this.size/2);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      update() {
+        this.velocity.x *= this.friction;
+        this.velocity.y *= this.friction;
+        this.velocity.y += this.gravity;
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.rotation += this.rotationSpeed;
+        this.alpha -= 0.01; 
+      }
+    }
+
+    function createExplosion(x, y, count = 50, speedMultiplier = 1) {
+      const colors = ['#ffd166', '#f72585', '#4cc9f0', '#7928ca', '#06d6a0', '#ff477e', '#ffffff'];
+      for (let i = 0; i < count; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particles.push(new Particle(x, y, color, speedMultiplier));
+      }
+    }
+
+    function animate() {
+      if (!animationActive) return;
+      requestAnimationFrame(animate);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      
+      if (Math.random() < 0.02) {
+        createExplosion(
+          Math.random() * canvas.width,
+          Math.random() * (canvas.height * 0.6),
+          25,
+          0.7
+        );
+      }
+
+      particles.forEach((particle, index) => {
+        if (particle.alpha > 0) {
+          particle.update();
+          particle.draw();
+        } else {
+          particles.splice(index, 1);
+        }
+      });
+    }
+
+    animate();
+
+    
+    const fullText = "🎂 ¡Te deseo que tengas momentos increíbles, sonrisas, mucha salud y éxitos! Eres una persona muy especial en mi vida y te mereces toda la felicidad del mundo. ¡Que disfrutes al máximo tu día, rodeada de cariño! ¡Muchas felicidades❤️! 🥳✨🎈🎉";
+    let isTyping = false;
+
+    function typeWriter(text, elementId, speed = 40) {
+      let i = 0;
+      const element = document.getElementById(elementId);
+      element.innerHTML = "";
+      
+      
+      document.getElementById('cursor').style.display = 'inline-block';
+
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);i++;
+          
+          
+          let currentSpeed = speed + (Math.random() - 0.5) * 20;
+          setTimeout(type, currentSpeed);
+        } else {
+          // 
+          setTimeout(() => {
+              document.getElementById('cursor').style.display = 'none';
+          }, 1000);
+        }
+      }
+      type();
+    }
+
+    function openSurprise() {
+      if (isTyping) return; 
+      
+      const btn = document.getElementById('btnSurprise');
+      const box = document.getElementById('surprise');
+      const cake = document.getElementById('cake');
+      
+      isTyping = true;
+      box.style.display = 'block';
+      btn.style.display = 'none'; 
+
+      
+      cake.style.animation = 'cakeExplode 0.5s ease-out';
+      setTimeout(() => cake.style.animation = '', 500);
+
+      
+      typeWriter(fullText, 'typed-text', 40);
+
+      
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      
+      for (let i = 0; i < 10; i++) {
+        setTimeout(() => {
+          createExplosion(
+            centerX + (Math.random() - 0.5) * 300,
+            centerY + (Math.random() - 0.5) * 250,
+            70,
+            1.3 
+          );
+        }, i * 100);
+      }
+    }
+    
+    
+    const styleSheet = document.styleSheets[0];
+    styleSheet.insertRule(`
+        @keyframes cakeExplode {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4) rotate(-15deg); filter: brightness(1.5); }
+            100% { transform: scale(1); rotate(0deg); }
+        }
+    `, styleSheet.cssRules.length);
+
+  </script>
+</body>
+</html>
